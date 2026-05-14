@@ -2,14 +2,14 @@
 FROM node:24-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --silent || true
+RUN npm ci --silent
 
 # Stage: builder
 FROM node:24-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-RUN npm run build || true
+RUN npm run build
 
 # Stage: runner
 FROM node:24-alpine AS runner
